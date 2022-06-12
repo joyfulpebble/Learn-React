@@ -1,14 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import './styles/App.css'
-import Post from "./components/Post";
+import PostList from "./components/PostList";
 
 function App() {
-
+  const [posts, setPost] = useState([
+    {id: 1, title: 'Заголовок 1.1', body: 'Daggers rise with courage!'},
+    {id: 2, title: 'Заголовок 2.1', body: 'Daggers rise with courage!'},
+    {id: 3, title: 'Заголовок 3.1', body: 'Daggers rise with courage!'}
+  ]);
 
   return (
-  <div className="App">
-    <Post post={{id: 1, title: 'Заголовок', body: 'Daggers rise with courage!'}}/>
-  </div>
+    <div className="App">
+      <PostList posts={posts} title={'Список постов 1'}/>
+    </div>
   );
 }
 
