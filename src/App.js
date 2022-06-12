@@ -9,15 +9,15 @@ function App() {
   const [body, setBody] = useState('');
   // const bodyInputRef = useRef()
 
-  const [posts, setPost] = useState([
-    {id: 1, title: 'Заголовок 1.1', body: 'Daggers rise with courage!'},
-    {id: 2, title: 'Заголовок 2.1', body: 'Daggers rise with courage!'},
-    {id: 3, title: 'Заголовок 3.1', body: 'Daggers rise with courage!'}
+  const [posts, setPosts] = useState([
+    {id: 1, title: 'Пример заголовка', body: 'Пример информации о посте'},
   ]);
+  const [post, setPost] = useState({title: '', body: ''});
 
   function addNewPost(e) {
     e.preventDefault()
-
+    setPosts([...posts, {...post, id: Date.now()}]);
+    setPost({title: '', body: ''})
   }
 
   return (
@@ -25,14 +25,14 @@ function App() {
       <form>
         {/*Управляемый эелемент*/}
         <CustomInput
-            value={title}
-            onChange= {e => setTitle(e.target.value)}
+            value={post.title}
+            onChange= {e => setPost({...post, title: e.target.value})}
             type="text"
             placeholder={'Название поста'}
         />
         <CustomInput
-            value={body}
-            onChange= {e => setBody(e.target.value)}
+            value={post.body}
+            onChange= {e => setPost({...post, body: e.target.value})}
             type="text"
             placeholder={'Описание поста'}
         />
