@@ -3,6 +3,8 @@ import './styles/App.css'
 import PostList from "./components/PostList";
 import CustomButton from "./components/UI/buton/CustomButton";
 import CustomInput from "./components/UI/input/CustomInput";
+import Post from "./components/Post";
+import PostForm from "./components/PostForm";
 
 function App() {
   const [title, setTitle] = useState('');
@@ -12,39 +14,14 @@ function App() {
   const [posts, setPosts] = useState([
     {id: 1, title: 'Пример заголовка', body: 'Пример информации о посте'},
   ]);
-  const [post, setPost] = useState({title: '', body: ''});
 
-  function addNewPost(e) {
-    e.preventDefault()
-    setPosts([...posts, {...post, id: Date.now()}]);
-    setPost({title: '', body: ''})
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost])
   }
 
   return (
     <div className="App">
-      <form>
-        {/*Управляемый эелемент*/}
-        <CustomInput
-            value={post.title}
-            onChange= {e => setPost({...post, title: e.target.value})}
-            type="text"
-            placeholder={'Название поста'}
-        />
-        <CustomInput
-            value={post.body}
-            onChange= {e => setPost({...post, body: e.target.value})}
-            type="text"
-            placeholder={'Описание поста'}
-        />
-        {/*Неуправляемый эелемент*/}
-        {/*<CustomInput
-            ref={bodyInputRef}
-            type="text"
-            placeholder={'Описание поста'}
-        />*/}
-        <CustomButton onClick={addNewPost}>Создать пост</CustomButton>
-      </form>
-      
+      <PostForm create={createPost}/>
       <PostList posts={posts} title={'Список постов 1'}/>
     </div>
   );
