@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import Counter from "./components/Counter";
-import ClassCounter from "./components/ClassCounter";
+import React from "react";
+import './styles/App.css'
+import Post from "./components/Post";
 
 function App() {
-  const [value, setValue] = useState('Text.')
+
 
   return (
-    <div className="App">
-      <ClassCounter/>
-    </div>
+  <div className="App">
+    <Post post={{id: 1, title: 'Заголовок', body: 'Daggers rise with courage!'}}/>
+  </div>
   );
 }
 
