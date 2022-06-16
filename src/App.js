@@ -2,20 +2,22 @@ import React, {useMemo, useState} from "react";
 import './styles/App.css'
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
-import Select from "./components/UI/select/Select";
-import CustomInput from "./components/UI/input/CustomInput";
 import PostFilter from "./components/PostFilter";
+import Modal from "./components/UI/modal/Modal";
+import CustomButton from "./components/UI/buton/CustomButton";
 
 function App() {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [posts, setPosts] = useState([
+  const [title, setTitle]   = useState('');
+  const [body, setBody]     = useState('');
+  const [posts, setPosts]   = useState([
     {id: 1, title: 'Пример заголовка', body: 'Пример информации о посте'},
   ]);
   const [filter, setFilter] = useState({sort: '', query: ''})
+  const [modal, setModal]   = useState(false)
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
+    setModal(false);
   };
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id));
@@ -34,7 +36,12 @@ function App() {
 
   return (
     <div className="App">
-      <PostForm create={createPost}/>
+      <CustomButton style={{marginLeft: 240, marginTop: 10}} onClick={() => setModal(true)}>
+        Создать пост
+      </CustomButton>
+      <Modal visible={modal} setVisible={setModal}>
+        <PostForm create={createPost}/>
+      </Modal>
       <hr style={{margin: '15px 0'}}/>
       <PostFilter
         filter={filter}
