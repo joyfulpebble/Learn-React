@@ -6,14 +6,12 @@ import PostFilter from "./components/PostFilter";
 import Modal from "./components/UI/modal/Modal";
 import CustomButton from "./components/UI/buton/CustomButton";
 import {usePost} from "./hooks/usePost";
-import axios from "axios";
+import PostService from "./API/PostService";
 
 function App() {
   const [title, setTitle]   = useState('');
   const [body, setBody]     = useState('');
-  const [posts, setPosts]   = useState([
-    {id: 1, title: 'Пример заголовка', body: 'Пример информации о посте'},
-  ]);
+  const [posts, setPosts]   = useState([]);
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [modal, setModal]   = useState(false)
 
@@ -32,8 +30,8 @@ function App() {
   }, [])
 
   async function fetchPosts(){
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    setPosts(response.data)
+    const posts = await PostService.getAll();
+    setPosts(posts)
   }
 
   return (
