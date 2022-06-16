@@ -7,13 +7,15 @@ import Modal from "./components/UI/modal/Modal";
 import CustomButton from "./components/UI/buton/CustomButton";
 import {usePost} from "./hooks/usePost";
 import PostService from "./API/PostService";
+import Loader from "./components/UI/loader/Loader";
 
 function App() {
   const [title, setTitle]   = useState('');
   const [body, setBody]     = useState('');
   const [posts, setPosts]   = useState([]);
-  const [filter, setFilter] = useState({sort: '', query: ''})
-  const [modal, setModal]   = useState(false)
+  const [filter, setFilter] = useState({sort: '', query: ''});
+  const [modal, setModal]   = useState(false);
+  const [isPostsLoadind, setIsPostsLoading] = useState(false);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -22,6 +24,13 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id));
   };
+  const loadPosts  = () => {
+    const load = isPostsLoadind
+      ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}> <Loader/> </div>
+      : <PostList remove={removePost} posts={searchedAndSortedPosts} title={'Список постов 1'}/>;
+
+    return load;
+  }
 
   const searchedAndSortedPosts = usePost(posts, filter.sort, filter.query)
 
@@ -30,8 +39,10 @@ function App() {
   }, [])
 
   async function fetchPosts(){
+    setIsPostsLoading(true)
     const posts = await PostService.getAll();
     setPosts(posts)
+    setIsPostsLoading(false)
   }
 
   return (
@@ -47,13 +58,7 @@ function App() {
         filter={filter}
         setFilter={setFilter}
       />
-      {
-        searchedAndSortedPosts.length !== 0
-        ?
-          <PostList remove={removePost} posts={searchedAndSortedPosts} title={'Список постов 1'}/>
-        :
-          <h1 style={{textAlign: 'center'}}>Упс! Постов нет :(</h1>
-      }
+      {loadPosts()}
     </div>
   );
 }
