@@ -33,3 +33,20 @@
     opacity: 0;
     transition: opacity 500ms ease-in;
 }
+.pagination__wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+.page{
+    padding: 5px 15px;
+    border: 2px darkorchid solid;
+    border-radius: 5px;
+    color: darkorchid;
+    cursor: pointer;
+}
+.page__current{
+    background-color: darkorchid;
+    color: white;
+}
