@@ -11,6 +11,7 @@ import Loader from "./components/UI/loader/Loader";
 import {useFetching} from "./hooks/useFetching";
 import {getPageCount} from "./utils/pages";
 import {usePagination} from "./hooks/usePagination";
+import Pagination from "./components/Pagination.jsx"
 
 function App() {
   const [title, setTitle]   = useState('');
@@ -66,15 +67,7 @@ function App() {
         postError
           && <h1>Ошибка: ${postError}</h1>
       }
-      <div className={'pagination__wrapper'}>
-          {
-          pagesArray.map(p =>
-          <button
-              onClick={() => setPage(p)}
-              key={p}
-              className={page === p ? 'page page__current' : 'page'}>{p}</button>
-          )}
-        </div>
+      <Pagination pages={pagesArray} page={page} setPage={setPage}/>
     </div>
   );
 }
