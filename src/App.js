@@ -1,16 +1,14 @@
 import './styles/App.css'
 import * as React from "react";
-import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Posts from "./pages/Posts.jsx";
+import Navbar from "./components/UI/navbar/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="navbar">
-        <Link className="navbar__item" to="/posts">Posts</Link>
-        <Link className="navbar__item" to="/">Main</Link>
-      </div>
+      <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/posts' element={<Posts/>}/>
