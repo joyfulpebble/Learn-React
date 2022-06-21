@@ -11,6 +11,12 @@
 .App{
     width: 600px;
 }
+.post__btns{
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
 .post{
     display: flex;
     padding: 20px;

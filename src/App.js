@@ -1,8 +1,6 @@
 import './styles/App.css'
 import * as React from "react";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Posts from "./pages/Posts.jsx";
+import {BrowserRouter} from "react-router-dom";
 import Navbar from "./components/UI/navbar/Navbar";
 import AppRouter from "./components/AppRouter";
 
