@@ -5,7 +5,7 @@ import PostService from "../API/PostService";
 
 const PostPage = () => {
   const params = useParams();
-  console.log(params);
+  // console.log(params);
 
   const [post, setPost] = useState(null)
   const [fetchPostById, isLoading, error] = useFetching(async (id) => {
