@@ -1,28 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import {useFetching} from "../hooks/useFetching";
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+import { useFetching } from "../hooks/useFetching";
 import PostService from "../API/PostService";
+import Loader from '../components/UI/loader/Loader';
+import { PostInfo } from '../components/UI/post-info/PostInfo';
 
 const PostPage = () => {
-  const params = useParams();
-  // console.log(params);
+  const { id } = useParams();
 
-  const [post, setPost] = useState(null)
-  const [fetchPostById, isLoading, error] = useFetching(async (id) => {
+  const [post, setPost] = useState({})
+  const [fetchPostById, isLoading, error] = useFetching(async () => {
     const response = await PostService.getById(id);
     setPost(response.data)
   })
 
   useEffect(() => {
-    fetchPostById(params.id)
-  })
+    fetchPostById(id)
+  }, [])
+
+  console.log(post);
 
   return (
       <div>
-        <h1>Пост открыт {params.id}</h1>
-        <div>
-          {post.title}
-        </div>
+        <h1>Пост: № {id}</h1>
+        {
+          isLoading
+          ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}> <Loader/> </div>
+          : <PostInfo Id={post.id} title={post.title} body={post.body}/>
+        }
       </div>
   );
 };

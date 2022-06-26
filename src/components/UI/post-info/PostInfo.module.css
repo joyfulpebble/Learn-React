@@ -1,0 +1,22 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 900px;
+  height: 400px;
+}
+.info__block{
+  width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bold{
+  font-size: 20px;
+  font-weight: bold;
+}
+.normal{
+  text-align: center;
+  font-size: 17px;
+  width: 500px;
+}
