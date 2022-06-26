@@ -13,6 +13,7 @@ import {getPageCount} from "../utils/pages";
 import {usePagination} from "../hooks/usePagination";
 import Pagination from "../components/Pagination.jsx"
 import { useRef } from "react";
+import { useObserver } from "../hooks/useObserver";
 
 function Posts() {
   const [title, setTitle] = useState('');
@@ -24,7 +25,6 @@ function Posts() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const lastElement = useRef(null);
-  let observer = useRef();
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
     setPosts([...posts, ...response.data]);
@@ -33,33 +33,15 @@ function Posts() {
   });
 
   const pagesArray = usePagination(totalPages);
-
-  const createPost = (newPost) => {
-    setPosts([...posts, newPost]);
-    setModal(false);
-  };
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id));
   };
 
   const searchedAndSortedPosts = usePost(posts, filter.sort, filter.query);
 
-  useEffect(() => {   
-    if( isPostsLoading ) return;
-    const last = lastElement.current;
-    
-    let callback = function(entries, observer) {
-      if(entries[0].isIntersecting && page < totalPages){
-        setPage(page + 1);
-      }
-    }
-    
-    observer = new IntersectionObserver(callback);
-    if( last ) observer.observe(last);
-    return () => {
-      if( last ) observer.unobserve(last);
-    }
-  }, [isPostsLoading])
+  useObserver(lastElement, page < totalPages, isPostsLoading, () => {
+    setPage(page + 1);
+  });
 
   useEffect(() => {
     fetchPosts();
@@ -67,16 +49,6 @@ function Posts() {
 
   return (
       <div className="App">
-
-        <CustomButton style={{marginLeft: 240, marginTop: 10}} onClick={() => setModal(true)}>
-          Создать пост
-        </CustomButton>
-
-        <Modal visible={modal} setVisible={setModal}>
-          <PostForm create={createPost}/>
-        </Modal>
-
-        <hr style={{margin: '15px 0'}}/>
 
         <PostFilter
           filter={filter}
